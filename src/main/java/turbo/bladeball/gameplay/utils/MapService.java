@@ -1,4 +1,4 @@
-package turbo.bladeball;
+package turbo.bladeball.gameplay.utils;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;

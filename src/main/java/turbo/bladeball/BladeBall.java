@@ -3,8 +3,9 @@ package turbo.bladeball;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
-import turbo.bladeball.command.TeleportCommand;
 import turbo.bladeball.gameplay.ball.ManagerBall;
+import turbo.bladeball.gameplay.utils.Command;
+import turbo.bladeball.gameplay.utils.MapService;
 import turbo.bladeball.gameplay.utils.event.Event;
 
 public final class BladeBall extends JavaPlugin {
@@ -19,8 +20,11 @@ public final class BladeBall extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new MapService(), this);
             getServer().getPluginManager().registerEvents(new Event(), this);
 
-            getCommand("start").setExecutor(new TeleportCommand());
-            getCommand("end").setExecutor(new TeleportCommand());
+            getCommand("start").setExecutor(new Command());
+            getCommand("end").setExecutor(new Command());
+            getCommand("money").setExecutor(new Command());
+            getCommand("myKill").setExecutor(new Command());
+            getCommand("myWin").setExecutor(new Command());
 
             ManagerBall managerBall = new ManagerBall();
             managerBall.spawnBall();

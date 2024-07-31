@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Slime;
-import turbo.bladeball.MapService;
+import turbo.bladeball.gameplay.utils.MapService;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ManagerBall {

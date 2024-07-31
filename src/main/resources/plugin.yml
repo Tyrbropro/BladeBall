@@ -8,3 +8,12 @@ commands:
   end:
     description: tp end
     usage: /<command>
+  money:
+    description: показывает сколько денег
+    usage: /<command>
+  myKill:
+    description: показывает сколько киллов
+    usage: /<command>
+  myWin:
+    description: показывает сколько побед
+    usage: /<command>
