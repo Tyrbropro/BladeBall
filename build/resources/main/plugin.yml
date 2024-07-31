@@ -1,0 +1,10 @@
+name: BladeBall
+version: '1.0-SNAPSHOT'
+main: turbo.bladeball.BladeBall
+commands:
+  start:
+    description: tp start
+    usage: /<command>
+  end:
+    description: tp end
+    usage: /<command>
