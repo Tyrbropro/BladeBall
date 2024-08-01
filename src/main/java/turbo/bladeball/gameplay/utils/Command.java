@@ -10,9 +10,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import turbo.bladeball.PlayerData;
 import turbo.bladeball.currency.kill.repository.KillRepositoryImpl;
+import turbo.bladeball.currency.lose.repository.LoseRepositoryImpl;
 import turbo.bladeball.currency.money.repository.MoneyRepositoryImpl;
 import turbo.bladeball.currency.win.repository.WinRepositoryImpl;
 import turbo.bladeball.gameplay.ball.MoveBall;
+import turbo.bladeball.gameplay.skill.PullSkill;
+import turbo.bladeball.gameplay.skill.Skill;
+import turbo.bladeball.gameplay.skill.SkillManager;
+
+import java.util.UUID;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Command implements CommandExecutor {
@@ -20,6 +26,8 @@ public class Command implements CommandExecutor {
     World world = MapService.getWorld();
     Location Start = new Location(world, -203.5, 86, 272.5);
     Location End = new Location(world, -190.5, 86, 272.5);
+    MoveBall moveBall = new MoveBall();
+    SkillManager skillManager = new SkillManager();
 
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
@@ -31,6 +39,7 @@ public class Command implements CommandExecutor {
                             MoveBall.getPlayers().add(player);
                             player.teleport(Start);
                         }
+                        moveBall.move();
                     }
                 }
             }
@@ -86,6 +95,29 @@ public class Command implements CommandExecutor {
 
                 WinRepositoryImpl winRepository = data.getWinRepository();
                 player.sendMessage("Количество побед: " + winRepository.getWin());
+            }
+            return true;
+        }
+        if (command.getName().equalsIgnoreCase("myLose")) {
+
+            if (commandSender instanceof Player) {
+
+                Player player = (Player) commandSender;
+                PlayerData data = PlayerData.getUsers().get(player.getUniqueId());
+
+                LoseRepositoryImpl loseRepository = data.getLoseRepository();
+                player.sendMessage("Количество поражений: " + loseRepository.getLose());
+            }
+            return true;
+        }
+        if (command.getName().equalsIgnoreCase("pull")) {
+
+            if (commandSender instanceof Player) {
+
+                Player player = (Player) commandSender;
+                Skill skill = new PullSkill();
+                skillManager.unlockSkill(player.getUniqueId(),skill);
+                skillManager.equipSkill(player.getUniqueId(),skill);
             }
             return true;
         }

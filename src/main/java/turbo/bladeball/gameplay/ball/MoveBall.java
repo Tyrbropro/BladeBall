@@ -2,10 +2,13 @@ package turbo.bladeball.gameplay.ball;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import turbo.bladeball.BladeBall;
@@ -15,33 +18,69 @@ import turbo.bladeball.currency.lose.repository.LoseRepositoryImpl;
 import turbo.bladeball.currency.money.repository.MoneyRepositoryImpl;
 import turbo.bladeball.currency.win.repository.WinRepositoryImpl;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
+@Getter
+@Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MoveBall {
 
     @Getter
     static final Set<Player> players = new HashSet<>();
 
-    public static Player target;
-    public static Player noTarget;
+    @Getter
+    static Player target;
+    static Player noTarget;
 
-    double speed;
-    double tick;
+    static double speed;
+    static double tick;
 
-    public void move(Player player) {
+    static Vector start;
+    static Vector playerHitDirection;
+    static Vector currentPosition;
+    static Vector initialDirection;
+
+    public void move() {
         Slime slime = ManagerBall.getSlime();
+        target = randomPlayer();
+
+        if (checkTarget()) return;
+        initializeBukkitRunnable(slime);
+    }
+
+    public void changeTarget(Player player) {
         noTarget = player;
         target = getNearestPlayerLookingAt(player);
-        if (target == null) {
-            player.sendMessage("И нахуя ты меня бьешь?");
-            player.sendMessage("Посмотри вокруг , никого нету");
-            player.sendMessage("С кем ты собрался махаться?");
-            return;
+
+        start = ManagerBall.getSlime().getLocation().toVector();
+        playerHitDirection = player.getLocation().getDirection().normalize();
+        currentPosition = start.clone();
+        initialDirection = playerHitDirection.clone();
+    }
+
+    public void setTarget(Player player) {
+        target = player;
+
+        start = ManagerBall.getSlime().getLocation().toVector();
+        playerHitDirection = target.getLocation().getDirection().normalize().multiply(-1);
+        currentPosition = start.clone();
+        initialDirection = playerHitDirection.clone();
+    }
+
+    private void glowing() {
+        target.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1));
+        if (noTarget != null && noTarget.hasPotionEffect(PotionEffectType.GLOWING)) {
+            noTarget.removePotionEffect(PotionEffectType.GLOWING);
         }
-        if (checkTarget()) return;
-        initializeBukkitRunnable(slime, player);
+    }
+
+    private Player randomPlayer() {
+        List<Player> playerList = new ArrayList<>(getPlayers());
+
+        Random random = new Random();
+        int randomIndex = random.nextInt(playerList.size());
+
+        return playerList.get(randomIndex);
     }
 
     private boolean checkTarget() {
@@ -59,16 +98,17 @@ public class MoveBall {
         return targetPlayer.getNearestPlayerLookingAt(player, 100);
     }
 
-    private void initializeBukkitRunnable(Slime slime, Player player) {
-        Vector start = slime.getLocation().toVector();
-        Vector playerHitDirection = player.getLocation().getDirection().normalize();
+    private void initializeBukkitRunnable(Slime slime) {
+        start = slime.getLocation().toVector();
+        playerHitDirection = start;
+        if (noTarget != null) playerHitDirection = noTarget.getLocation().getDirection().normalize();
 
         speed = 2.0;
         tick = 0;
-        new BukkitRunnable() {
-            final Vector currentPosition = start.clone();
-            final Vector initialDirection = playerHitDirection.clone();
 
+        currentPosition = start.clone();
+        initialDirection = playerHitDirection.clone();
+        new BukkitRunnable() {
             @Override
             public void run() {
                 moveSlimeTowardsTarget(this, slime, start, currentPosition, initialDirection);
@@ -82,6 +122,7 @@ public class MoveBall {
             endInteraction(slime);
             return;
         }
+        glowing();
         Vector end = target.getLocation().toVector();
 
         if (++tick >= 20) {
@@ -111,9 +152,9 @@ public class MoveBall {
         double distanceToEnd = currentPosition.distance(end);
         double totalDistance = start.distance(end);
 
-        double t = 1.3 - (distanceToEnd / totalDistance);
-        if (t < 0.3) {
-            t = 0.3;
+        double t = 1.2 - (distanceToEnd / totalDistance);
+        if (t < 0.2) {
+            t = 0.2;
         } else if (t >= 1) {
             t = 0.8;
         }
@@ -121,11 +162,15 @@ public class MoveBall {
     }
 
     private void endInteraction(Slime slime) {
-        giveKillReward();
+        if (noTarget != null) {
+            giveKillReward();
+        }
         giveLoseReward();
         if (getPlayers().size() == 1) {
-            noTarget.teleport(new Location(noTarget.getWorld(), -190.5, 86, 272.5));
-            giveWinReward();
+            List<Player> playerList = new ArrayList<>(getPlayers());
+
+            playerList.get(0).teleport(new Location(playerList.get(0).getWorld(), -190.5, 86, 272.5));
+            giveWinReward(playerList.get(0));
         }
         slime.teleport(new Location(slime.getWorld(), -222, 87, 271));
     }
@@ -140,14 +185,14 @@ public class MoveBall {
         noTarget.sendMessage("+10 Monet za kill");
     }
 
-    private void giveWinReward() {
-        PlayerData data = PlayerData.getUsers().get(noTarget.getUniqueId());
+    private void giveWinReward(Player player) {
+        PlayerData data = PlayerData.getUsers().get(player.getUniqueId());
         MoneyRepositoryImpl moneyRepository = data.getMoneyRepository();
         WinRepositoryImpl winRepository = data.getWinRepository();
 
         winRepository.setWin(winRepository.getWin() + 1);
         moneyRepository.setMoney(moneyRepository.getMoney() + 30);
-        noTarget.sendMessage("+30 Monet za pobedy");
+        player.sendMessage("+30 Monet za pobedy");
     }
 
     private void giveLoseReward() {

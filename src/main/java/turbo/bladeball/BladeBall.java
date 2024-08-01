@@ -25,6 +25,8 @@ public final class BladeBall extends JavaPlugin {
             getCommand("money").setExecutor(new Command());
             getCommand("myKill").setExecutor(new Command());
             getCommand("myWin").setExecutor(new Command());
+            getCommand("myLose").setExecutor(new Command());
+            getCommand("pull").setExecutor(new Command());
 
             ManagerBall managerBall = new ManagerBall();
             managerBall.spawnBall();

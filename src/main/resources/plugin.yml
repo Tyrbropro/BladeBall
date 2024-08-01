@@ -17,3 +17,9 @@ commands:
   myWin:
     description: показывает сколько побед
     usage: /<command>
+  myLose:
+    description: показывает сколько поражений
+    usage: /<command>
+  pull:
+    description: Активирует способность Pull
+    usage: /<command>
