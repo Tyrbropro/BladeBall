@@ -23,3 +23,27 @@ commands:
   pull:
     description: Активирует способность Pull
     usage: /<command>
+  platform:
+    description: Активирует способность Platform
+    usage: /<command>
+  dash:
+    description: Активирует способность Dash
+    usage: /<command>
+  swap:
+    description: Активирует способность Swap
+    usage: /<command>
+  superJump:
+    description: Активирует способность SuperJump
+    usage: /<command>
+  windCloak:
+    description: Активирует способность WindClock
+    usage: /<command>
+  wayPoint:
+    description: Активирует способность WayPoint
+    usage: /<command>
+  titanBlade:
+    description: Активирует способность TitanBlade
+    usage: /<command>
+  thunderDash:
+    description: Активирует способность ThunderDashSkill
+    usage: /<command>
