@@ -19,6 +19,6 @@ public class WindCloakSkill extends Skill {
             public void run() {
                 player.setWalkSpeed(0.2F);
             }
-        }.runTaskLater(BladeBall.getPlugin(BladeBall.class), 80L);
+        }.runTaskLater(BladeBall.getPlugin(), 80L);
     }
 }

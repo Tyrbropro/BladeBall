@@ -69,7 +69,7 @@ public class MoveBall {
             public void run() {
                 moveSlimeTowardsTarget(this, slime, ballConfig.getStart(), ballConfig.getCurrentPosition(), ballConfig.getInitialDirection());
             }
-        }.runTaskTimer(BladeBall.getPlugin(BladeBall.class), 0L, 1L);
+        }.runTaskTimer(BladeBall.getPlugin(), 0L, 1L);
     }
 
     private void moveSlimeTowardsTarget(BukkitRunnable runnable, Slime slime, Vector start, Vector currentPosition, Vector initialDirection) {
@@ -162,6 +162,7 @@ public class MoveBall {
         ballConfig.getPlayers().remove(ballConfig.getTarget());
         ballConfig.getTarget().sendMessage("Вы проиграли");
         ballConfig.getTarget().setHealth(0.0);
+
         ballConfig.setTarget(null);
     }
 }

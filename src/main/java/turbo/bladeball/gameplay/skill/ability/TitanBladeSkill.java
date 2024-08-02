@@ -26,6 +26,6 @@ public class TitanBladeSkill extends Skill {
                 ballConfig.getTouchDistant().put(uuid, 3);
                 player.sendMessage("Passive end");
             }
-        }.runTaskLater(BladeBall.getPlugin(BladeBall.class), 200);
+        }.runTaskLater(BladeBall.getPlugin(), 200);
     }
 }

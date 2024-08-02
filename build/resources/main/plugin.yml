@@ -47,3 +47,6 @@ commands:
   thunderDash:
     description: Активирует способность ThunderDashSkill
     usage: /<command>
+  telekinesis:
+    description: Активирует способность Telekinesis
+    usage: /<command>

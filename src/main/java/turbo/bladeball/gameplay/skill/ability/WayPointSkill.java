@@ -22,6 +22,6 @@ public class WayPointSkill extends Skill {
                 player.teleport(location);
                 player.sendMessage("Passive end");
             }
-        }.runTaskLater(BladeBall.getPlugin(BladeBall.class), 100);
+        }.runTaskLater(BladeBall.getPlugin(), 100);
     }
 }

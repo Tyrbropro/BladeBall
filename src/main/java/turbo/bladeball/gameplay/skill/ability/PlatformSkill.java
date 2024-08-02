@@ -26,7 +26,7 @@ public class PlatformSkill extends Skill {
             public void run() {
                 delPlatform(platformStart);
             }
-        }.runTaskLater(BladeBall.getPlugin(BladeBall.class), 200L);
+        }.runTaskLater(BladeBall.getPlugin(), 200L);
     }
 
     private void createPlatform(Location platformStart) {

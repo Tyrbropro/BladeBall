@@ -53,7 +53,7 @@ public class BallListener {
                 }
                 ticks++;
             }
-        }.runTaskTimer(BladeBall.getPlugin(BladeBall.class), 0L, 1L);
+        }.runTaskTimer(BladeBall.getPlugin(), 0L, 1L);
     }
 
     private boolean checkDistance(Player player) {
