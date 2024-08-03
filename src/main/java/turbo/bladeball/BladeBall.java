@@ -6,13 +6,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
-import turbo.bladeball.config.BallConfig;
-import turbo.bladeball.config.SkillConfig;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
+import turbo.bladeball.config.Config;
 import turbo.bladeball.gameplay.ball.BallListener;
-import turbo.bladeball.gameplay.ball.MoveBall;
-import turbo.bladeball.gameplay.skill.SkillListener;
 import turbo.bladeball.gameplay.util.MapService;
-import turbo.bladeball.gameplay.util.ballUtil.TargetPlayer;
 import turbo.bladeball.gameplay.util.command.*;
 import turbo.bladeball.gameplay.util.command.skill.*;
 import turbo.bladeball.gameplay.util.event.Event;
@@ -20,72 +19,65 @@ import turbo.bladeball.gameplay.util.event.Event;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public final class BladeBall extends JavaPlugin {
 
     private static BladeBall plugin;
 
+    ConfigurableApplicationContext context;
     BallListener ballListener;
-    SkillConfig skillConfig;
-    SkillListener skillListener;
-    BallConfig ballConfig;
-    TargetPlayer targetPlayer;
-    MoveBall moveBall;
 
     @Override
     public void onEnable() {
         plugin = this;
 
         World world = MapService.getWorld();
-
         if (world != null) {
+            context = new AnnotationConfigApplicationContext(Config.class);
 
-            setupConfigs();
+            ballListener = context.getBean(BallListener.class);
+
             registerEvents();
             registerCommands();
 
             ballListener.spawnBall();
-
         } else Bukkit.shutdown();
+
     }
 
     @Override
     public void onDisable() {
         ballListener.removeBall();
+
+        if (context != null) {
+            context.close();
+        }
     }
 
     public static BladeBall getPlugin() {
         return plugin;
     }
 
-    private void setupConfigs() {
-        skillConfig = new SkillConfig();
-        skillListener = new SkillListener(skillConfig);
-        ballConfig = new BallConfig();
-        targetPlayer = new TargetPlayer(ballConfig);
-        ballListener = new BallListener(ballConfig, targetPlayer);
-        moveBall = new MoveBall(ballConfig, targetPlayer);
-    }
-
     private void registerCommands() {
         Map<String, CommandExecutor> commands = new HashMap<>();
 
-        commands.put("start", new StartGameCommand(ballConfig, moveBall));
-        commands.put("end", new EndGameCommand(ballConfig));
-        commands.put("money", new MoneyCommand());
-        commands.put("myKill", new KillPlayerCommand());
-        commands.put("myWin", new WinCommand());
-        commands.put("myLose", new LoseCommand());
-        commands.put("pull", new PullCommand(skillListener, targetPlayer));
-        commands.put("platform", new PlatformCommand(skillListener));
-        commands.put("dash", new DashCommand(skillListener));
-        commands.put("superJump", new SuperJumpCommand(skillListener));
-        commands.put("swap", new SwapCommand(skillListener, targetPlayer));
-        commands.put("windCloak", new WindCloakCommand(skillListener));
-        commands.put("wayPoint", new WayPointCommand(skillListener));
-        commands.put("titanBlade", new TitanBladeCommand(skillListener, ballConfig));
-        commands.put("thunderDash", new ThunderDashCommand(skillListener));
-        commands.put("telekinesis", new TelekinesisCommand(skillListener, targetPlayer, ballConfig));
+        commands.put("start", context.getBean(StartGameCommand.class));
+        commands.put("end", context.getBean(EndGameCommand.class));
+        commands.put("money", context.getBean(MoneyCommand.class));
+        commands.put("myKill", context.getBean(KillPlayerCommand.class));
+        commands.put("myWin", context.getBean(WinCommand.class));
+        commands.put("myLose", context.getBean(LoseCommand.class));
+        commands.put("pull", context.getBean(PullCommand.class));
+        commands.put("platform", context.getBean(PlatformCommand.class));
+        commands.put("dash", context.getBean(DashCommand.class));
+        commands.put("superJump", context.getBean(SuperJumpCommand.class));
+        commands.put("swap", context.getBean(SwapCommand.class));
+        commands.put("windCloak", context.getBean(WindCloakCommand.class));
+        commands.put("wayPoint", context.getBean(WayPointCommand.class));
+        commands.put("titanBlade", context.getBean(TitanBladeCommand.class));
+        commands.put("thunderDash", context.getBean(ThunderDashCommand.class));
+        commands.put("telekinesis", context.getBean(TelekinesisCommand.class));
 
         for (Map.Entry<String, CommandExecutor> entry : commands.entrySet()) {
             getCommand(entry.getKey()).setExecutor(entry.getValue());
@@ -94,6 +86,6 @@ public final class BladeBall extends JavaPlugin {
 
     private void registerEvents() {
         getServer().getPluginManager().registerEvents(new MapService(), this);
-        getServer().getPluginManager().registerEvents(new Event(ballListener, ballConfig, skillListener), this);
+        getServer().getPluginManager().registerEvents(context.getBean(Event.class), this);
     }
 }

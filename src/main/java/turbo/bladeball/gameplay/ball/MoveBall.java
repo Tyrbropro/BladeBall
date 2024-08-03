@@ -9,6 +9,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import turbo.bladeball.BladeBall;
 import turbo.bladeball.PlayerData;
 import turbo.bladeball.config.BallConfig;
@@ -20,15 +22,19 @@ import turbo.bladeball.gameplay.util.ballUtil.TargetPlayer;
 
 import java.util.*;
 
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Component
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class MoveBall {
+
     BallConfig ballConfig;
     TargetPlayer targetPlayer;
 
-    public MoveBall(BallConfig ballConfig , TargetPlayer targetPlayer) {
+    @Autowired
+    public MoveBall(BallConfig ballConfig, TargetPlayer targetPlayer) {
         this.ballConfig = ballConfig;
         this.targetPlayer = targetPlayer;
     }
+
 
     public void move() {
         Slime slime = ballConfig.getSlime();
@@ -37,6 +43,7 @@ public class MoveBall {
         if (checkTarget()) return;
         initializeBukkitRunnable(slime);
     }
+
     private void glowing() {
         ballConfig.getTarget().addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, 1));
         if (ballConfig.getNoTarget() != null && ballConfig.getNoTarget().hasPotionEffect(PotionEffectType.GLOWING)) {
@@ -53,6 +60,7 @@ public class MoveBall {
         }
         return true;
     }
+
     private void initializeBukkitRunnable(Slime slime) {
         ballConfig.setStart(ballConfig.getSlime().getLocation().toVector());
         ballConfig.setPlayerHitDirection(ballConfig.getStart());

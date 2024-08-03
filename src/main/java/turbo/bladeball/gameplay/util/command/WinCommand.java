@@ -3,9 +3,11 @@ package turbo.bladeball.gameplay.util.command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.springframework.stereotype.Component;
 import turbo.bladeball.PlayerData;
 import turbo.bladeball.currency.win.repository.WinRepositoryImpl;
 
+@Component
 public class WinCommand implements CommandExecutor {
 
     @Override

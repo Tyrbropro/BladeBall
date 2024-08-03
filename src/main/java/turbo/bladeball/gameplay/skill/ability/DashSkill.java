@@ -10,7 +10,7 @@ public class DashSkill extends Skill {
 
 
     public DashSkill() {
-        super("Dash", 10 * 20);
+        super("Dash", 10 * 20, 0);
     }
 
     @Override
@@ -19,6 +19,12 @@ public class DashSkill extends Skill {
         Vector direction = loc.getDirection();
 
         player.setVelocity(direction.multiply(3));
+    }
+
+    @Override
+    public void activateEffect(Player player) {
+        Location loc = player.getLocation();
+        Vector direction = loc.getDirection();
 
         createCircleEffect(loc.clone().add(direction.multiply(-1)));
         createCircleEffect(loc.clone().add(direction.multiply(-2)));

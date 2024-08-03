@@ -7,20 +7,26 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import turbo.bladeball.config.BallConfig;
 import turbo.bladeball.gameplay.ball.MoveBall;
 import turbo.bladeball.gameplay.util.MapService;
-
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Component
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class StartGameCommand implements CommandExecutor {
+
     BallConfig ballConfig;
     MoveBall moveball;
-
-    public StartGameCommand(BallConfig ballConfig , MoveBall moveball) {
+    @Autowired
+    public StartGameCommand(BallConfig ballConfig,MoveBall moveball) {
         this.ballConfig = ballConfig;
         this.moveball = moveball;
     }
-    Location Start = new Location(MapService.getWorld(), -203.5, 86, 272.5);
+
+
+
+    Location start = new Location(MapService.getWorld(), -203.5, 86, 272.5);
 
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
@@ -30,7 +36,7 @@ public class StartGameCommand implements CommandExecutor {
                     if (ballConfig.getPlayers().size() <= 1) {
                         for (Player player : Bukkit.getOnlinePlayers()) {
                             ballConfig.getPlayers().add(player);
-                            player.teleport(Start);
+                            player.teleport(start);
                         }
                         moveball.move();
                     }

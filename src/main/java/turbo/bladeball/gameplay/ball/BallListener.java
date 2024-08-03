@@ -7,16 +7,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import turbo.bladeball.BladeBall;
 import turbo.bladeball.config.BallConfig;
 import turbo.bladeball.gameplay.util.ballUtil.TargetPlayer;
 
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Component
+@FieldDefaults(level = AccessLevel.PRIVATE ,makeFinal = true)
 public class BallListener {
+
     BallConfig ballConfig;
     TargetPlayer targetPlayer;
 
-    public BallListener(BallConfig ballConfig , TargetPlayer targetPlayer) {
+    @Autowired
+    public BallListener(BallConfig ballConfig, TargetPlayer targetPlayer) {
         this.ballConfig = ballConfig;
         this.targetPlayer = targetPlayer;
     }

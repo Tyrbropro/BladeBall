@@ -1,18 +1,26 @@
 package turbo.bladeball.gameplay.util.ballUtil;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import turbo.bladeball.config.BallConfig;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Component
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class TargetPlayer {
+
     BallConfig ballConfig;
 
-    public TargetPlayer(BallConfig ballConfig) {
+    @Autowired
+    public TargetPlayer(BallConfig ballConfig){
         this.ballConfig = ballConfig;
     }
 
@@ -48,13 +56,14 @@ public class TargetPlayer {
 
     public void changeTarget(Player player) {
         ballConfig.setNoTarget(player);
-        ballConfig.setTarget(getNearestPlayerLookingAt(player , 100));
+        ballConfig.setTarget(getNearestPlayerLookingAt(player, 100));
 
         ballConfig.setStart(ballConfig.getSlime().getLocation().toVector());
         ballConfig.setPlayerHitDirection(player.getLocation().getDirection().normalize());
         ballConfig.setCurrentPosition(ballConfig.getStart().clone());
         ballConfig.setInitialDirection(ballConfig.getPlayerHitDirection().clone());
     }
+
     public Player randomPlayer() {
         List<Player> playerList = new ArrayList<>(ballConfig.getPlayers());
 

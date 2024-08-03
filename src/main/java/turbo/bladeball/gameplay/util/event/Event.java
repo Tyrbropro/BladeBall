@@ -11,6 +11,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.potion.PotionEffectType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import turbo.bladeball.PlayerData;
 import turbo.bladeball.config.BallConfig;
 import turbo.bladeball.gameplay.ball.BallListener;
@@ -19,20 +21,25 @@ import turbo.bladeball.gameplay.skill.SkillListener;
 
 import java.util.UUID;
 
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Component
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class Event implements Listener {
-    BallListener managerBall;
+
+    BallListener ballListener;
     BallConfig ballConfig;
     SkillListener skillListener;
-    public Event(BallListener managerBall, BallConfig ballConfig , SkillListener skillListener){
-        this.managerBall = managerBall;
+
+    @Autowired
+    public Event(BallListener ballListener,BallConfig ballConfig,SkillListener skillListener) {
+        this.ballListener = ballListener;
         this.ballConfig = ballConfig;
         this.skillListener = skillListener;
     }
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction().toString().contains("LEFT_CLICK")) {
-            managerBall.interactBall(event.getPlayer());
+            ballListener.interactBall(event.getPlayer());
         }
     }
 
@@ -49,7 +56,7 @@ public class Event implements Listener {
         player.setLevel(0);
 
         ballConfig.getTouchDistant().putIfAbsent(uuid, 3);
-        PlayerData.getUsers().putIfAbsent(uuid,new PlayerData(uuid));
+        PlayerData.getUsers().putIfAbsent(uuid, new PlayerData(uuid));
 
         if (player.hasPotionEffect(PotionEffectType.GLOWING)) {
             player.removePotionEffect(PotionEffectType.GLOWING);

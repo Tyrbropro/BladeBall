@@ -6,19 +6,23 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import turbo.bladeball.config.BallConfig;
 import turbo.bladeball.gameplay.util.MapService;
 
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Component
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class EndGameCommand implements CommandExecutor {
 
     BallConfig ballConfig;
 
+    @Autowired
     public EndGameCommand(BallConfig ballConfig) {
         this.ballConfig = ballConfig;
     }
 
-    Location End = new Location(MapService.getWorld(), -190.5, 86, 272.5);
+    Location end = new Location(MapService.getWorld(), -190.5, 86, 272.5);
 
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
@@ -31,7 +35,7 @@ public class EndGameCommand implements CommandExecutor {
                         ballConfig.getPlayers().remove(player);
                     }
                 }
-                player.teleport(End);
+                player.teleport(end);
 
             }
             return true;
