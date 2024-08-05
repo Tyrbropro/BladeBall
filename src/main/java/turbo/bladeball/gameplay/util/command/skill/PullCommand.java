@@ -32,8 +32,7 @@ public class PullCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
         if (command.getName().equalsIgnoreCase("pull")) {
-            if (commandSender instanceof Player) {
-                Player player = (Player) commandSender;
+            if (commandSender instanceof Player player) {
                 Skill skill = new PullSkill(targetPlayer, ballConfig);
                 skillManager.unlockSkill(player.getUniqueId(), skill);
                 skillManager.equipSkill(player.getUniqueId(), skill);

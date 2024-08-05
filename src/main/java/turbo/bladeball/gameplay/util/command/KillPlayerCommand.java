@@ -13,8 +13,7 @@ public class KillPlayerCommand  implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
         if (command.getName().equalsIgnoreCase("myKill")) {
-            if (commandSender instanceof Player) {
-                Player player = (Player) commandSender;
+            if (commandSender instanceof Player player) {
                 PlayerData data = PlayerData.getUsers().get(player.getUniqueId());
 
                 KillRepositoryImpl killRepository = data.getKillRepository();

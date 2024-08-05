@@ -26,11 +26,10 @@ public class TitanBladeCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
         if (command.getName().equalsIgnoreCase("titanBlade")) {
-            if (commandSender instanceof Player) {
-                Player player = (Player) commandSender;
+            if (commandSender instanceof Player player) {
                 Skill skill = new TitanBladeSkill(ballConfig);
-                skillManager.unlockSkill(player.getUniqueId(),skill);
-                skillManager.equipSkill(player.getUniqueId(),skill);
+                skillManager.unlockSkill(player.getUniqueId(), skill);
+                skillManager.equipSkill(player.getUniqueId(), skill);
             }
             return true;
         }

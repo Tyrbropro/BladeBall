@@ -13,8 +13,7 @@ public class LoseCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
         if (command.getName().equalsIgnoreCase("myLose")) {
-            if (commandSender instanceof Player) {
-                Player player = (Player) commandSender;
+            if (commandSender instanceof Player player) {
                 PlayerData data = PlayerData.getUsers().get(player.getUniqueId());
 
                 LoseRepositoryImpl loseRepository = data.getLoseRepository();

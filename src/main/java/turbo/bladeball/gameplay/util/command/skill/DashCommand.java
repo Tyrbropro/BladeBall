@@ -25,8 +25,7 @@ public class DashCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
             if (command.getName().equalsIgnoreCase("dash")) {
-                if (commandSender instanceof Player) {
-                    Player player = (Player) commandSender;
+                if (commandSender instanceof Player player) {
 
                     Skill skill = new DashSkill();
                     skillManager.unlockSkill(player.getUniqueId(), skill);

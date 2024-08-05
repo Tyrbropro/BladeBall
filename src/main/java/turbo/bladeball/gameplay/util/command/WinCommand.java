@@ -13,8 +13,7 @@ public class WinCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
         if (command.getName().equalsIgnoreCase("myWin")) {
-            if (commandSender instanceof Player) {
-                Player player = (Player) commandSender;
+            if (commandSender instanceof Player player) {
                 PlayerData data = PlayerData.getUsers().get(player.getUniqueId());
                 WinRepositoryImpl winRepository = data.getWinRepository();
                 player.sendMessage("Количество побед: " + winRepository.getWin());

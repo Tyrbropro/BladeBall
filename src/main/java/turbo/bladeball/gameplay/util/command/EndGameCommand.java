@@ -28,8 +28,7 @@ public class EndGameCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
         if (command.getName().equalsIgnoreCase("end")) {
 
-            if (commandSender instanceof Player) {
-                Player player = (Player) commandSender;
+            if (commandSender instanceof Player player) {
                 for (Player players : ballConfig.getPlayers()) {
                     if (player.equals(players)) {
                         ballConfig.getPlayers().remove(player);

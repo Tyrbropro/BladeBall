@@ -25,11 +25,10 @@ public class ThunderDashCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
         if (command.getName().equalsIgnoreCase("thunderDash")) {
-            if (commandSender instanceof Player) {
-                Player player = (Player) commandSender;
+            if (commandSender instanceof Player player) {
                 Skill skill = new ThunderDashSkill();
-                skillManager.unlockSkill(player.getUniqueId(),skill);
-                skillManager.equipSkill(player.getUniqueId(),skill);
+                skillManager.unlockSkill(player.getUniqueId(), skill);
+                skillManager.equipSkill(player.getUniqueId(), skill);
             }
             return true;
         }

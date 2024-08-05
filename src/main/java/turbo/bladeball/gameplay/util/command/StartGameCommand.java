@@ -12,18 +12,19 @@ import org.springframework.stereotype.Component;
 import turbo.bladeball.config.BallConfig;
 import turbo.bladeball.gameplay.ball.MoveBall;
 import turbo.bladeball.gameplay.util.MapService;
+
 @Component
-@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class StartGameCommand implements CommandExecutor {
 
     BallConfig ballConfig;
     MoveBall moveball;
+
     @Autowired
-    public StartGameCommand(BallConfig ballConfig,MoveBall moveball) {
+    public StartGameCommand(BallConfig ballConfig, MoveBall moveball) {
         this.ballConfig = ballConfig;
         this.moveball = moveball;
     }
-
 
 
     Location start = new Location(MapService.getWorld(), -203.5, 86, 272.5);

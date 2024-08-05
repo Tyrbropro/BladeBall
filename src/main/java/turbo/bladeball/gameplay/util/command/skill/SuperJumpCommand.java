@@ -25,8 +25,7 @@ public class SuperJumpCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
         if (command.getName().equalsIgnoreCase("superJump")) {
-            if (commandSender instanceof Player) {
-                Player player = (Player) commandSender;
+            if (commandSender instanceof Player player) {
                 Skill skill = new SuperJumpSkill();
                 skillManager.unlockSkill(player.getUniqueId(), skill);
                 skillManager.equipSkill(player.getUniqueId(), skill);
