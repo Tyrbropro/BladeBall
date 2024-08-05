@@ -2,6 +2,7 @@ package turbo.bladeball.gameplay.skill.ability;
 
 import de.slikey.effectlib.effect.LineEffect;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -16,10 +17,23 @@ public class ThunderDashSkill extends Skill {
     @Override
     public void activate(Player player) {
         Location location = player.getLocation();
-        Vector direction = location.getDirection();
-        Location newLocation = location.add(direction.multiply(6));
-        newLocation.setY(86);
-        player.teleport(newLocation);
+        Vector direction = location.getDirection().normalize();
+        int maxDistance = 8;
+        Location targetLocation = location.clone();
+
+        for (int i = 1; i <= maxDistance; i++) {
+            Location checkLocation = location.clone().add(direction.clone().multiply(i));
+
+            if (checkLocation.getBlock().getType() != Material.AIR) {
+                targetLocation = location.clone().add(direction.clone().multiply(i - 1));
+                break;
+            }
+
+            targetLocation = checkLocation;
+        }
+
+        targetLocation.setY(86);
+        player.teleport(targetLocation);
     }
 
     @Override

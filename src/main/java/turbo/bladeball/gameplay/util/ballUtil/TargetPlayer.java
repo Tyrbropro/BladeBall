@@ -31,8 +31,7 @@ public class TargetPlayer {
         double minDistance = Double.MAX_VALUE;
 
         for (Entity entity : nearbyEntities) {
-            if (entity instanceof Player && !entity.equals(player)) {
-                Player target = (Player) entity;
+            if (entity instanceof Player target && !entity.equals(player)) {
                 Location targetLocation = target.getLocation();
                 double distance = player.getEyeLocation().distance(targetLocation);
 
@@ -47,6 +46,7 @@ public class TargetPlayer {
 
     public void setTarget(Player player) {
         ballConfig.setTarget(player);
+        ballConfig.setNoTarget(null);
 
         ballConfig.setStart(ballConfig.getSlime().getLocation().toVector());
         ballConfig.setPlayerHitDirection(ballConfig.getTarget().getLocation().getDirection().normalize().multiply(-1));
