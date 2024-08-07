@@ -6,10 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.potion.PotionEffectType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -58,12 +55,17 @@ public class Event implements Listener {
 
         ballConfig.getTouchDistant().putIfAbsent(uuid, 3);
 
-        PlayerData playerData = DataBase.loadFromMongoDB(uuid);
-        PlayerData.getUsers().put(uuid, playerData);
-
         if (player.hasPotionEffect(PotionEffectType.GLOWING)) {
             player.removePotionEffect(PotionEffectType.GLOWING);
         }
+    }
+
+    @EventHandler
+    public void asyncPlayerLogin(AsyncPlayerPreLoginEvent event) {
+        UUID uuid = event.getUniqueId();
+
+        PlayerData playerData = DataBase.loadFromMongoDB(uuid);
+        PlayerData.getUsers().put(uuid, playerData);
     }
 
     @EventHandler
