@@ -12,6 +12,7 @@ import turbo.bladeball.gameplay.skill.Skill;
 import turbo.bladeball.gameplay.skill.SkillListener;
 import turbo.bladeball.gameplay.skill.ability.PullSkill;
 import turbo.bladeball.gameplay.util.ballUtil.TargetPlayer;
+import turbo.bladeball.register.SubCommand;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -30,6 +31,7 @@ public class PullCommand implements CommandExecutor {
 
 
     @Override
+    @SubCommand("pull")
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
         if (command.getName().equalsIgnoreCase("pull")) {
             if (commandSender instanceof Player player) {

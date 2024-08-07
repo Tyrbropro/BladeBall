@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import turbo.bladeball.gameplay.skill.Skill;
 import turbo.bladeball.gameplay.skill.SkillListener;
 import turbo.bladeball.gameplay.skill.ability.WayPointSkill;
+import turbo.bladeball.register.SubCommand;
 
 @Component
 public class WayPointCommand implements CommandExecutor {
@@ -21,6 +22,7 @@ public class WayPointCommand implements CommandExecutor {
 
 
     @Override
+    @SubCommand("wayPoint")
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
         if (command.getName().equalsIgnoreCase("wayPoint")) {
             if (commandSender instanceof Player player) {

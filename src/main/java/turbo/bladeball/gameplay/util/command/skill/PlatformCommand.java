@@ -10,18 +10,21 @@ import org.springframework.stereotype.Component;
 import turbo.bladeball.gameplay.skill.Skill;
 import turbo.bladeball.gameplay.skill.SkillListener;
 import turbo.bladeball.gameplay.skill.ability.PlatformSkill;
+import turbo.bladeball.register.SubCommand;
+
 @Component
-@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PlatformCommand implements CommandExecutor {
 
     SkillListener skillManager;
 
     @Autowired
-    public PlatformCommand(SkillListener skillListener){
+    public PlatformCommand(SkillListener skillListener) {
         this.skillManager = skillListener;
     }
 
     @Override
+    @SubCommand("platform")
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
         if (command.getName().equalsIgnoreCase("platform")) {
             if (commandSender instanceof Player player) {

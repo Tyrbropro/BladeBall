@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import turbo.bladeball.gameplay.skill.Skill;
 import turbo.bladeball.gameplay.skill.SkillListener;
 import turbo.bladeball.gameplay.skill.ability.SuperJumpSkill;
+import turbo.bladeball.register.SubCommand;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
@@ -23,6 +24,7 @@ public class SuperJumpCommand implements CommandExecutor {
     }
 
     @Override
+    @SubCommand("superJump")
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
         if (command.getName().equalsIgnoreCase("superJump")) {
             if (commandSender instanceof Player player) {

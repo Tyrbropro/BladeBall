@@ -12,6 +12,7 @@ import turbo.bladeball.gameplay.skill.Skill;
 import turbo.bladeball.gameplay.skill.SkillListener;
 import turbo.bladeball.gameplay.skill.ability.SwapSkill;
 import turbo.bladeball.gameplay.util.ballUtil.TargetPlayer;
+import turbo.bladeball.register.SubCommand;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -29,6 +30,7 @@ public class SwapCommand implements CommandExecutor {
     }
 
     @Override
+    @SubCommand("swap")
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
         if (command.getName().equalsIgnoreCase("swap")) {
             if (commandSender instanceof Player player) {

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import turbo.bladeball.config.BallConfig;
 import turbo.bladeball.gameplay.util.MapService;
+import turbo.bladeball.register.SubCommand;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
@@ -25,6 +26,7 @@ public class EndGameCommand implements CommandExecutor {
     Location end = new Location(MapService.getWorld(), -190.5, 86, 272.5);
 
     @Override
+    @SubCommand("end")
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
         if (command.getName().equalsIgnoreCase("end")) {
 

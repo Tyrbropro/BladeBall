@@ -1,17 +1,38 @@
 package turbo.bladeball.config;
 
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import turbo.bladeball.gameplay.ball.BallListener;
 import turbo.bladeball.gameplay.ball.MoveBall;
 import turbo.bladeball.gameplay.skill.SkillListener;
+import turbo.bladeball.gameplay.util.MapService;
 import turbo.bladeball.gameplay.util.ballUtil.TargetPlayer;
 import turbo.bladeball.gameplay.util.command.*;
 import turbo.bladeball.gameplay.util.command.skill.*;
 import turbo.bladeball.gameplay.util.event.Event;
+import turbo.bladeball.register.CommandServiceImpl;
+import turbo.bladeball.register.ListenerServiceImpl;
 
 @Configuration
+@AllArgsConstructor
 public class Config {
+
+    @Bean
+    public ListenerServiceImpl listenerService() {
+        return new ListenerServiceImpl();
+    }
+
+    @Bean
+    public MapService mapService() {
+        return new MapService();
+    }
+
+    @Bean
+    public CommandServiceImpl commandService() {
+        return new CommandServiceImpl();
+    }
+
     @Bean
     public SkillConfig skillConfig() {
         return new SkillConfig();
@@ -54,7 +75,7 @@ public class Config {
 
     @Bean
     public PullCommand pullCommand() {
-        return new PullCommand(skillListener(), targetPlayer() , ballConfig());
+        return new PullCommand(skillListener(), targetPlayer(), ballConfig());
     }
 
     @Bean
@@ -64,7 +85,7 @@ public class Config {
 
     @Bean
     public SwapCommand swapCommand() {
-        return new SwapCommand(skillListener(), targetPlayer(),ballConfig());
+        return new SwapCommand(skillListener(), targetPlayer(), ballConfig());
     }
 
     @Bean
@@ -79,7 +100,7 @@ public class Config {
 
     @Bean
     public TitanBladeCommand titanBladeCommand() {
-        return new TitanBladeCommand(skillListener(),ballConfig());
+        return new TitanBladeCommand(skillListener(), ballConfig());
     }
 
     @Bean

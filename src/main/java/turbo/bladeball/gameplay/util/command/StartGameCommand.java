@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import turbo.bladeball.config.BallConfig;
 import turbo.bladeball.gameplay.ball.MoveBall;
 import turbo.bladeball.gameplay.util.MapService;
+import turbo.bladeball.register.SubCommand;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -30,6 +31,7 @@ public class StartGameCommand implements CommandExecutor {
     Location start = new Location(MapService.getWorld(), -203.5, 86, 272.5);
 
     @Override
+    @SubCommand("start")
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
         if (command.getName().equalsIgnoreCase("start")) {
             if (commandSender instanceof Player) {

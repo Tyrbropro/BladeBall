@@ -6,7 +6,9 @@ import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldInitEvent;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MapService implements Listener {
 
     @Getter

@@ -12,12 +12,12 @@ import org.bukkit.util.Vector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import turbo.bladeball.BladeBall;
-import turbo.bladeball.PlayerData;
 import turbo.bladeball.config.BallConfig;
 import turbo.bladeball.currency.kill.repository.KillRepositoryImpl;
 import turbo.bladeball.currency.lose.repository.LoseRepositoryImpl;
 import turbo.bladeball.currency.money.repository.MoneyRepositoryImpl;
 import turbo.bladeball.currency.win.repository.WinRepositoryImpl;
+import turbo.bladeball.data.PlayerData;
 import turbo.bladeball.gameplay.util.MapService;
 import turbo.bladeball.gameplay.util.ballUtil.TargetPlayer;
 
@@ -114,13 +114,39 @@ public class MoveBall {
         if (currentPosition.getY() < 87) {
             currentPosition.setY(87);
         }
+        Location location1 = slime.getLocation();
+
         slime.teleport(new Location(slime.getWorld(), currentPosition.getX(), currentPosition.getY(), currentPosition.getZ()));
+
+        Location location2 = slime.getLocation();
 
         Location targetLoc = ballConfig.getTarget().getLocation();
         if (targetLoc.distance(slime.getLocation()) <= 1.02) {
             endInteraction(slime);
             runnable.cancel();
+        } else if (isPlayerOnLine(targetLoc, location1, location2)) {
+            endInteraction(slime);
+            runnable.cancel();
         }
+    }
+
+    private boolean isPlayerOnLine(Location playerLocation, Location location1, Location location2) {
+        Vector A = location1.toVector();
+        Vector B = location2.toVector();
+        Vector P = playerLocation.toVector();
+
+        Vector AB = B.clone().subtract(A);
+        Vector AP = P.clone().subtract(A);
+        Vector BP = P.clone().subtract(B);
+
+        double crossProductLengthSquared = AB.crossProduct(AP).lengthSquared();
+        if (crossProductLengthSquared > 1e-6) {
+            return false;
+        }
+
+        double dotProduct1 = AB.dot(AP);
+        double dotProduct2 = -AB.dot(BP);
+        return dotProduct1 >= 0 && dotProduct2 >= 0;
     }
 
     private double calculateInterpolationFactor(Vector currentPosition, Vector end, Vector start) {

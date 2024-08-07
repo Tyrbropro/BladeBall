@@ -9,6 +9,7 @@ import turbo.bladeball.config.BallConfig;
 import turbo.bladeball.gameplay.skill.Skill;
 import turbo.bladeball.gameplay.skill.SkillListener;
 import turbo.bladeball.gameplay.skill.ability.TitanBladeSkill;
+import turbo.bladeball.register.SubCommand;
 
 @Component
 public class TitanBladeCommand implements CommandExecutor {
@@ -24,6 +25,7 @@ public class TitanBladeCommand implements CommandExecutor {
 
 
     @Override
+    @SubCommand("titanBlade")
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
         if (command.getName().equalsIgnoreCase("titanBlade")) {
             if (commandSender instanceof Player player) {

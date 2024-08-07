@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import turbo.bladeball.gameplay.skill.Skill;
 import turbo.bladeball.gameplay.skill.SkillListener;
 import turbo.bladeball.gameplay.skill.ability.WindCloakSkill;
+import turbo.bladeball.register.SubCommand;
 
 @Component
 public class WindCloakCommand implements CommandExecutor {
@@ -20,6 +21,7 @@ public class WindCloakCommand implements CommandExecutor {
     }
 
     @Override
+    @SubCommand("windCloak")
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {
         if (command.getName().equalsIgnoreCase("windCloak")) {
             if (commandSender instanceof Player player) {

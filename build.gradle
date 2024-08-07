@@ -19,9 +19,10 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.mongodb:mongodb-driver-sync:4.7.1'
+    implementation 'org.reflections:reflections:0.10.2'
     implementation 'org.slf4j:slf4j-api:1.7.32'
     implementation 'org.slf4j:slf4j-simple:1.7.32'
-
     implementation 'org.springframework:spring-context:5.3.9'
     implementation 'com.elmakers.mine.bukkit:EffectLib:10.2'
 

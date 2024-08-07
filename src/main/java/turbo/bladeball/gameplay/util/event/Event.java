@@ -13,8 +13,9 @@ import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.potion.PotionEffectType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import turbo.bladeball.PlayerData;
 import turbo.bladeball.config.BallConfig;
+import turbo.bladeball.data.DataBase;
+import turbo.bladeball.data.PlayerData;
 import turbo.bladeball.gameplay.ball.BallListener;
 import turbo.bladeball.gameplay.skill.Skill;
 import turbo.bladeball.gameplay.skill.SkillListener;
@@ -22,7 +23,7 @@ import turbo.bladeball.gameplay.skill.SkillListener;
 import java.util.UUID;
 
 @Component
-@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Event implements Listener {
 
     BallListener ballListener;
@@ -30,7 +31,7 @@ public class Event implements Listener {
     SkillListener skillListener;
 
     @Autowired
-    public Event(BallListener ballListener,BallConfig ballConfig,SkillListener skillListener) {
+    public Event(BallListener ballListener, BallConfig ballConfig, SkillListener skillListener) {
         this.ballListener = ballListener;
         this.ballConfig = ballConfig;
         this.skillListener = skillListener;
@@ -56,7 +57,9 @@ public class Event implements Listener {
         player.setLevel(0);
 
         ballConfig.getTouchDistant().putIfAbsent(uuid, 3);
-        PlayerData.getUsers().putIfAbsent(uuid, new PlayerData(uuid));
+
+        PlayerData playerData = DataBase.loadFromMongoDB(uuid);
+        PlayerData.getUsers().put(uuid, playerData);
 
         if (player.hasPotionEffect(PotionEffectType.GLOWING)) {
             player.removePotionEffect(PotionEffectType.GLOWING);
@@ -75,6 +78,14 @@ public class Event implements Listener {
     @EventHandler
     public void quitPlayer(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+        UUID uuid = player.getUniqueId();
+
+        PlayerData playerData = PlayerData.getUsers().get(uuid);
+
+        if (playerData != null) {
+            playerData.saveToMongoDB();
+        }
+
         for (Player players : ballConfig.getPlayers()) {
             if (player.equals(players)) {
                 ballConfig.getPlayers().remove(player);
