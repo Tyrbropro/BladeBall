@@ -8,7 +8,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import turbo.bladeball.BladeBall;
 import turbo.bladeball.config.BallConfig;
-import turbo.bladeball.gameplay.util.ballUtil.TargetPlayer;
+import turbo.bladeball.gameplay.util.ball.TargetPlayer;
 
 @Getter
 public abstract class Skill {

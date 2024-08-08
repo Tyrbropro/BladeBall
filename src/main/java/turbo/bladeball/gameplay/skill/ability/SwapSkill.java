@@ -6,7 +6,7 @@ import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import turbo.bladeball.config.BallConfig;
 import turbo.bladeball.gameplay.skill.Skill;
-import turbo.bladeball.gameplay.util.ballUtil.TargetPlayer;
+import turbo.bladeball.gameplay.util.ball.TargetPlayer;
 
 public class SwapSkill extends Skill {
 

@@ -1,4 +1,4 @@
-package turbo.bladeball.gameplay.util.ballUtil;
+package turbo.bladeball.gameplay.util.ball;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.Random;
 
 @Component
-@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class TargetPlayer {
 
     BallConfig ballConfig;
 
     @Autowired
-    public TargetPlayer(BallConfig ballConfig){
+    public TargetPlayer(BallConfig ballConfig) {
         this.ballConfig = ballConfig;
     }
 

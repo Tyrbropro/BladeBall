@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import turbo.bladeball.BladeBall;
 import turbo.bladeball.config.BallConfig;
-import turbo.bladeball.gameplay.util.ballUtil.TargetPlayer;
+import turbo.bladeball.gameplay.util.ball.TargetPlayer;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE ,makeFinal = true)

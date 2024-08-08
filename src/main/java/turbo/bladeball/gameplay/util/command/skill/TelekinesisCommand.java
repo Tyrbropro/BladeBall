@@ -11,7 +11,7 @@ import turbo.bladeball.config.BallConfig;
 import turbo.bladeball.gameplay.skill.Skill;
 import turbo.bladeball.gameplay.skill.SkillListener;
 import turbo.bladeball.gameplay.skill.ability.TelekinesisSkill;
-import turbo.bladeball.gameplay.util.ballUtil.TargetPlayer;
+import turbo.bladeball.gameplay.util.ball.TargetPlayer;
 import turbo.bladeball.register.SubCommand;
 
 @Component

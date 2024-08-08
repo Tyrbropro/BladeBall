@@ -19,7 +19,7 @@ import turbo.bladeball.currency.money.repository.MoneyRepositoryImpl;
 import turbo.bladeball.currency.win.repository.WinRepositoryImpl;
 import turbo.bladeball.data.PlayerData;
 import turbo.bladeball.gameplay.util.MapService;
-import turbo.bladeball.gameplay.util.ballUtil.TargetPlayer;
+import turbo.bladeball.gameplay.util.ball.TargetPlayer;
 
 import java.util.ArrayList;
 import java.util.List;

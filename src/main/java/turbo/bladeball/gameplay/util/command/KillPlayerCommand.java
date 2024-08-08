@@ -10,7 +10,6 @@ import turbo.bladeball.register.SubCommand;
 
 @Component
 public class KillPlayerCommand  implements CommandExecutor {
-
     @Override
     @SubCommand("myKill")
     public boolean onCommand(CommandSender commandSender, org.bukkit.command.Command command, String s, String[] strings) {

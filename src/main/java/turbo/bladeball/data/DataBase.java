@@ -12,13 +12,28 @@ import turbo.bladeball.currency.lose.repository.LoseRepositoryImpl;
 import turbo.bladeball.currency.money.repository.MoneyRepositoryImpl;
 import turbo.bladeball.currency.win.repository.WinRepositoryImpl;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.UUID;
 
 public class DataBase {
 
-    static final String MONGO_URI = "mongodb://127.0.0.1:27017";
-    static final String DATABASE_NAME = "BladeBall";
-    static final String COLLECTION_NAME = "Players";
+    static String MONGO_URI;
+    static String DATABASE_NAME;
+    static String COLLECTION_NAME;
+
+    public static void loadDatabaseConfig() {
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader("database_config.txt"))) {
+            MONGO_URI = reader.readLine();
+            DATABASE_NAME = reader.readLine();
+            COLLECTION_NAME = reader.readLine();
+
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load database config", e);
+        }
+    }
 
     public static void saveToMongoDB(PlayerData playerData) {
         try (MongoClient mongoClient = MongoClients.create(MONGO_URI)) {

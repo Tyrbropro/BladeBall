@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import turbo.bladeball.config.Config;
+import turbo.bladeball.data.DataBase;
 import turbo.bladeball.data.PlayerData;
 import turbo.bladeball.gameplay.ball.BallListener;
 import turbo.bladeball.gameplay.util.MapService;
@@ -31,6 +32,8 @@ public final class BladeBall extends JavaPlugin {
         World world = MapService.getWorld();
         if (world != null) {
             context = new AnnotationConfigApplicationContext(Config.class);
+
+            DataBase.loadDatabaseConfig();
 
             ballListener = context.getBean(BallListener.class);
 

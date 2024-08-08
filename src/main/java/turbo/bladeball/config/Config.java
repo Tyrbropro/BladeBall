@@ -7,10 +7,12 @@ import turbo.bladeball.gameplay.ball.BallListener;
 import turbo.bladeball.gameplay.ball.MoveBall;
 import turbo.bladeball.gameplay.skill.SkillListener;
 import turbo.bladeball.gameplay.util.MapService;
-import turbo.bladeball.gameplay.util.ballUtil.TargetPlayer;
+import turbo.bladeball.gameplay.util.ball.TargetPlayer;
 import turbo.bladeball.gameplay.util.command.*;
 import turbo.bladeball.gameplay.util.command.skill.*;
-import turbo.bladeball.gameplay.util.event.Event;
+import turbo.bladeball.gameplay.util.event.PlayerDamageEvents;
+import turbo.bladeball.gameplay.util.event.PlayerInteractionEvents;
+import turbo.bladeball.gameplay.util.event.PlayerJoinQuitEvents;
 import turbo.bladeball.register.CommandServiceImpl;
 import turbo.bladeball.register.ListenerServiceImpl;
 
@@ -144,7 +146,17 @@ public class Config {
     }
 
     @Bean
-    public Event event() {
-        return new Event(ballListener(), ballConfig(), skillListener());
+    public PlayerDamageEvents playerDamageEvents() {
+        return new PlayerDamageEvents(ballConfig());
+    }
+
+    @Bean
+    public PlayerInteractionEvents playerInteractionEvents() {
+        return new PlayerInteractionEvents(ballListener(), skillListener());
+    }
+
+    @Bean
+    public PlayerJoinQuitEvents playerJoinQuitEvents() {
+        return new PlayerJoinQuitEvents(ballConfig());
     }
 }

@@ -5,46 +5,26 @@ import lombok.experimental.FieldDefaults;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffectType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import turbo.bladeball.config.BallConfig;
 import turbo.bladeball.data.DataBase;
 import turbo.bladeball.data.PlayerData;
-import turbo.bladeball.gameplay.ball.BallListener;
-import turbo.bladeball.gameplay.skill.Skill;
-import turbo.bladeball.gameplay.skill.SkillListener;
 
 import java.util.UUID;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class Event implements Listener {
-
-    BallListener ballListener;
+public class PlayerJoinQuitEvents implements Listener {
     BallConfig ballConfig;
-    SkillListener skillListener;
 
     @Autowired
-    public Event(BallListener ballListener, BallConfig ballConfig, SkillListener skillListener) {
-        this.ballListener = ballListener;
+    public PlayerJoinQuitEvents(BallConfig ballConfig) {
         this.ballConfig = ballConfig;
-        this.skillListener = skillListener;
-    }
-
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        if (event.getAction().toString().contains("LEFT_CLICK")) {
-            ballListener.interactBall(event.getPlayer());
-        }
-    }
-
-    @EventHandler
-    public void onPlayerHit(EntityDamageEvent event) {
-        if (event.getEntity() == ballConfig.getSlime() || event.getEntity() instanceof Player)
-            event.setCancelled(true);
     }
 
     @EventHandler
@@ -66,15 +46,6 @@ public class Event implements Listener {
 
         PlayerData playerData = DataBase.loadFromMongoDB(uuid);
         PlayerData.getUsers().put(uuid, playerData);
-    }
-
-    @EventHandler
-    public void onPlayerSwapHandItems(PlayerSwapHandItemsEvent event) {
-        Player player = event.getPlayer();
-        UUID uuid = player.getUniqueId();
-        Skill skill = skillListener.getEquippedSkill(uuid);
-        if (skill != null) skill.use(player);
-        else player.sendMessage("У вас нету скилла");
     }
 
     @EventHandler
